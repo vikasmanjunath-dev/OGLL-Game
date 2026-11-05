@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lumen-drift"
+version = "2.0.0"
+description = "LUMEN DRIFT - a 3D OpenGL tunnel game built for VTU BCS501 Fundamentals of Computer Graphics (PyOpenGL)"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = ["pygame>=2.5", "PyOpenGL>=3.1.7", "numpy>=1.24"]
+keywords = ["opengl", "pygame", "computer-graphics", "game", "glsl"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Topic :: Games/Entertainment :: Arcade",
+  "Topic :: Education",
+]
+
+[project.scripts]
+lumen-drift = "lumen_drift:main"
+
+[tool.setuptools]
+py-modules = ["lumen_drift", "gfxcore", "shaders", "postfx", "ui", "gamepad", "settings"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning"]

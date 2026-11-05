@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  unit:
+    name: Unit tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.9", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - name: Install system libraries
+        run: sudo apt-get update && sudo apt-get install -y libsdl2-2.0-0 libgl1 libglu1-mesa
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Run unit tests (no OpenGL needed)
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: python -m pytest tests -q --ignore=tests/test_smoke.py
+
+  smoke:
+    name: End-to-end smoke test (software OpenGL)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install system libraries
+        run: sudo apt-get update && sudo apt-get install -y xvfb libsdl2-2.0-0 libgl1 libglu1-mesa libgl1-mesa-dri
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+      - name: Drive the real game through every screen under Mesa llvmpipe
+        env:
+          SDL_AUDIODRIVER: dummy
+          LUMEN_SMOKE: "1"
+        run: xvfb-run -a -s "-screen 0 1280x720x24" python tests/test_smoke.py

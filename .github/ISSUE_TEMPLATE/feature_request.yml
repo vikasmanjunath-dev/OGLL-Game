@@ -1,0 +1,19 @@
+name: Feature request
+description: Suggest a new mode, effect, control, or improvement
+labels: [enhancement]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like to see?
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why does it make the game better?
+  - type: dropdown
+    id: syllabus
+    attributes:
+      label: Does it relate to a syllabus module (BCS501)?
+      options: ["No", "Module 1 - output primitives", "Module 2 - transforms / clipping / projection", "Module 3 - colour / lighting / shading", "Module 4 - interaction / GUI", "Module 5 - animation"]

@@ -1,0 +1,40 @@
+name: Bug report
+description: Something crashes, looks wrong, or behaves unexpectedly
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what did you see instead? A screenshot (F12 in-game) helps a lot.
+    validations:
+      required: true
+  - type: dropdown
+    id: renderer
+    attributes:
+      label: Renderer
+      options: [Premium, Classic, Not sure]
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS and GPU
+      placeholder: "macOS 14, Apple M2  /  Windows 11, RTX 3060  /  Ubuntu 24.04, Intel UHD"
+    validations:
+      required: true
+  - type: input
+    id: python
+    attributes:
+      label: Python / PyOpenGL / pygame versions
+      placeholder: "3.12 / 3.0.3 / 2.6.1  (pip list | grep -i -E 'pygame|opengl|numpy')"
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: Anything the game printed, especially `[premium renderer unavailable - using Classic]` lines.
+      render: shell
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
